@@ -34,27 +34,7 @@ trait RootService extends HttpService with StaticResources with MemberService {
       memberRoute ~ staticResources
     }
 }
-/*
-// TODO implement your REST Api
-trait Api extends HttpService {
 
-  val memberRoute =
-    get {
-      path("member") {
-        respondWithMediaType(`text/html`) { // XML is marshalled to `text/xml` by default, so we simply override here
-          complete {
-            <html>
-              <body>
-                <h1>Votabulary member registration!</h1>
-              </body>
-            </html>
-          }
-        }
-      }
-    }
-
-}
-*/
 // Trait for serving static resources
 // Sends 404 for 'favicon.icon' requests and serves static resources in 'bootstrap' folder.
 trait StaticResources extends HttpService {
@@ -62,7 +42,7 @@ trait StaticResources extends HttpService {
   val staticResources =
     get {
       path("") {
-        redirect("/index.html")
+        redirect("http://www.votabulary.com")
       } ~
         path("favicon.ico") {
           complete(StatusCodes.NotFound)
