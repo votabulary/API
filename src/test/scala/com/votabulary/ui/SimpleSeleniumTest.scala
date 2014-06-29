@@ -1,8 +1,9 @@
-package com.example
+package com.votabulary.ui
 
-import org.scalatest.{BeforeAndAfterAll, FlatSpec}
+import com.votabulary.WebApp
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.selenium.{HtmlUnit, Chrome}
+import org.scalatest.selenium.HtmlUnit
+import org.scalatest.{BeforeAndAfterAll, FlatSpec}
 
 class SimpleSeleniumTest extends FlatSpec with WebApp with ShouldMatchers with BeforeAndAfterAll with HtmlUnit {
 

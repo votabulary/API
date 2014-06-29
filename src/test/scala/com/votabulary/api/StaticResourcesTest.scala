@@ -1,9 +1,9 @@
-package com.example
+package com.votabulary.api
 
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
-import spray.testkit.ScalatestRouteTest
 import spray.http.StatusCodes._
+import spray.testkit.ScalatestRouteTest
 
 class StaticResourcesTest extends FlatSpec with ScalatestRouteTest with ShouldMatchers with StaticResources {
   def actorRefFactory = system

@@ -1,8 +1,8 @@
 import com.typesafe.sbt.SbtStartScript
 
-organization  := "com.example"
+organization  := "com.votabulary"
 
-version       := "0.2.1"
+version       := "0.1.0"
 
 scalaVersion  := "2.10.0"
 

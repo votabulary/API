@@ -1,7 +1,7 @@
-## _"AngularJS - Spray - Twitter Bootstrap"_ Project Template
+## Votabulary API/UI Project
 
-A template to start a project using Scala, Spray, AngularJS and Twitter Bootstrap (v3).
-The provided Bootstrapt template is 'Jumbotron-Narrow'. Start changing the GUI using AngularJS.
+A project using Scala, Spray, AngularJS and Twitter Bootstrap (v3).
+The provided Bootstrap template is 'Jumbotron-Narrow'. Start changing the GUI using AngularJS.
 Implement your REST API in the Api trait.
 
 # Testing JSON with Curl
