@@ -1,11 +1,10 @@
 package com.votabulary.ui
 
 import com.votabulary.WebApp
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 import org.scalatest.selenium.HtmlUnit
-import org.scalatest.{BeforeAndAfterAll, FlatSpec}
 
-class SimpleSeleniumTest extends FlatSpec with WebApp with ShouldMatchers with BeforeAndAfterAll with HtmlUnit {
+class SimpleSeleniumTest extends FlatSpec with WebApp with Matchers with BeforeAndAfterAll with HtmlUnit {
 
   behavior of "Spray Web Application"
 

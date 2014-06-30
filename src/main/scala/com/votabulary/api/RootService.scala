@@ -1,6 +1,7 @@
 package com.votabulary.api
 
 import akka.actor.Actor
+import com.votabulary.model.DBConfig
 import spray.routing._
 import directives.LogEntry
 import spray.http._
@@ -9,7 +10,7 @@ import akka.event.Logging
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
-class RootServiceActor extends Actor with RootService {
+class RootServiceActor extends Actor with RootService with DBConfig { this: DBConfig =>
 
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test

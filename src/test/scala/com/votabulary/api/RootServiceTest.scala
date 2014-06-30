@@ -1,13 +1,12 @@
 package com.votabulary.api
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 import spray.http.StatusCodes._
 import spray.http._
 import spray.testkit.ScalatestRouteTest
 
 
-class RootServiceTest extends FlatSpec with ScalatestRouteTest with ShouldMatchers with RootService {
+class RootServiceTest extends FlatSpec with ScalatestRouteTest with Matchers with RootService {
   def actorRefFactory = system
 
   behavior of "MyService"

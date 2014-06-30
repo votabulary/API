@@ -1,11 +1,10 @@
 package com.votabulary.api
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest._
 import spray.http.StatusCodes._
 import spray.testkit.ScalatestRouteTest
 
-class StaticResourcesTest extends FlatSpec with ScalatestRouteTest with ShouldMatchers with StaticResources {
+class StaticResourcesTest extends FlatSpec with ScalatestRouteTest with Matchers with StaticResources {
   def actorRefFactory = system
 
   behavior of "StaticResources routing trait"

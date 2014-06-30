@@ -2,12 +2,15 @@ package com.votabulary
 
 import akka.actor.Props
 import com.votabulary.api.RootServiceActor
+import com.votabulary.model.DAL
 import spray.can.server.SprayCanHttpServerApp
 
 trait WebApp extends SprayCanHttpServerApp {
 
+  val dal = DAL()
+
   // create and start our service actor
-  val service = system.actorOf(Props[RootServiceActor], "vlary-service")
+  val service = system.actorOf(Props[RootServiceActor], "votabulary-service")
 
   // To run project on Heroku, get PORT from environment
   val httpHost = "0.0.0.0"
