@@ -27,6 +27,7 @@ libraryDependencies ++= {
       "com.typesafe.slick"  %%  "slick"         % "1.0.0",
       "c3p0"                %   "c3p0"          % "0.9.1.2",
       "mysql"               %   "mysql-connector-java"    % "5.1.27",
+      "com.h2database"      %   "h2"            % "1.3.166",
       "com.typesafe.akka"   %%  "akka-actor"    % akkaVersion,
       "org.specs2"          %%  "specs2"        % "1.13" % "test",
 //      "org.scalatest"       %   "scalatest_2.10" % "2.0.M5b" % "test",

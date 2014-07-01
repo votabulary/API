@@ -61,8 +61,8 @@ trait MemberComponent { this: Profile =>
 
     def update(m: Member)(implicit s: Session): Member = {
       val q = for (m <- Members if m.id === m.id) yield m
-      val id = q.update(m)
-      get(id).get
+      q.update(m)
+      get(m.id.get).get
     }
   }
 }

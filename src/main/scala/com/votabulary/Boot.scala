@@ -1,11 +1,17 @@
 package com.votabulary
 
 import akka.actor.Props
+import com.typesafe.config.ConfigFactory
 import com.votabulary.api.RootServiceActor
 import com.votabulary.model.DAL
 import spray.can.server.SprayCanHttpServerApp
 
 trait WebApp extends SprayCanHttpServerApp {
+
+  val config = ConfigFactory.load()
+
+  val env = config.getString("build.env")
+  println(s"Running with build environment: $env")
 
   val dal = DAL()
 

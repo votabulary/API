@@ -30,32 +30,27 @@ trait MemberService extends HttpService with DBConfig {
           result
         }
       } ~
-      post {
-        entity(as[Member]) { member =>
-          val result = m.addMember(member)
-          println(s"Inserted member $member")
-          complete(result)
+        post {
+          entity(as[Member]) { member =>
+            val result = m.addMember(member)
+            println(s"Inserted member $member")
+            complete(result)
+          }
         }
-      }
     } ~
       path("members" / LongNumber) { id =>
         rejectEmptyResponse {
-          get { ctx =>
-            ctx.complete {
-              val result: Option[Member] = m.getMember(id)
-              result match {
-                case Some(x) => println(s"Got member $x")
-                  complete(x)
-                case _ => println(s"Cound not find member for ID ($id)")
-                  complete(NotFound)
-              }
-            }
+          get {
+            complete(m.getMember(id) match {
+              case Some(x) => x
+              case _ => NotFound
+            })
           } ~
             put {
               entity(as[Member]) { member =>
                 val r = m.getMember(id)
                 r match {
-                  case Some(x) => complete(m.updateMember(x))
+                  case Some(x) => complete(m.updateMember(member.copy(id = Some(id))))
                   case None => complete(NotFound)
                 }
               }
@@ -64,17 +59,13 @@ trait MemberService extends HttpService with DBConfig {
       } ~
       path("members" / Rest) { email =>
         rejectEmptyResponse {
-          get { ctx =>
-            ctx.complete {
-              val result: Option[Member] = m.getMember(email)
-              result match {
-                case Some(x) => println(s"Got member $x")
-                  complete(x)
-                case _ => println(s"Could not find member for email ($email)")
-                  complete(NotFound)
-              }
-            }
-          } ~
+          get {
+            complete(m.getMember(email) match {
+              case Some(x) => x
+              case _ => NotFound
+            })
+          }
+        } ~
           put {
             entity(as[Member]) { member =>
               val r = m.getMember(email)
@@ -86,7 +77,6 @@ trait MemberService extends HttpService with DBConfig {
               }
             }
           }
-        }
       }
   }
 
