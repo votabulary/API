@@ -69,7 +69,7 @@ object JDBCURL {
         println(s"Read URL from env var: $value")
         val credsUrl = value.split("//")(1).split("@")
         val creds = credsUrl(0).split(":")
-        val url = credsUrl(1)
+        val url = s"jdbc:mysql://${credsUrl(1)}"
         new JDBCURL(url, creds(0), creds(1))
       case None =>
         val env = config.getString("build.env")
