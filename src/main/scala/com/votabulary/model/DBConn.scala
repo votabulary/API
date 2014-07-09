@@ -40,6 +40,8 @@ object DatabaseConnection {
       pool.setPreferredTestQuery(config.getString("environment." + env + ".cp.preferredTestQuery"))
       pool.getProperties.put("utf8", "true")
 
+      println(s"JDBC URL: ${pool.getJdbcUrl}")
+
       Database forDataSource pool
 
     } catch {
@@ -64,6 +66,7 @@ object JDBCURL {
   def apply(config: Config): JDBCURL = {
     Properties.envOrNone(ENV_VAR) match {
       case Some(value) => // Assume: jdbc:mysql://user:password@url
+        println(s"Read URL from env var: $value")
         val credsUrl = value.split("//")(1).split("@")
         val creds = credsUrl(0).split(":")
         val url = credsUrl(1)
