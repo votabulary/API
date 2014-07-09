@@ -16,7 +16,14 @@ trait Profile {
   val profile: ExtendedProfile
 }
 
-class DAL(override val profile: ExtendedProfile) extends MemberComponent with Profile {
+class DAL(override val profile: ExtendedProfile, cp: DBConn) extends MemberComponent with Profile {
+
+  println("Constructing DAL")
+
+  val db = cp.database
+
+  def doWithSession(f: Unit => Unit) = db withSession { f }
+
   import profile.simple._
 
   def ddls = Set(Members.ddl)
@@ -46,7 +53,7 @@ object DAL {
   val config = ConfigFactory.load()
   config.checkValid(ConfigFactory.defaultReference())
 
-  def apply(): DAL = new DAL(MySQLDriver)
+  def apply(): DAL = new DAL(MySQLDriver, DBConn)
 
   // Clients can import this rather than depending on slick directly
   implicit def threadLocalSession: Session = scala.slick.session.Database.threadLocalSession

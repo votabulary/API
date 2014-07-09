@@ -1,16 +1,15 @@
 package com.votabulary.api
 
 import akka.actor.Actor
-import com.votabulary.model.DBConfig
+import com.votabulary.model.{DAL, DBConfig}
 import spray.routing._
 import directives.LogEntry
 import spray.http._
-import MediaTypes._
 import akka.event.Logging
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
-class RootServiceActor extends Actor with RootService with DBConfig { this: DBConfig =>
+class RootServiceActor extends Actor with RootService {
 
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
@@ -19,11 +18,11 @@ class RootServiceActor extends Actor with RootService with DBConfig { this: DBCo
   // this actor only runs our route, but you could add
   // other things here, like request stream processing
   // or timeout handling
-  def receive = runRoute(rootRoute)
+  def receive = runRoute(rootRoute ~ memberRoute)
 }
 
 // this trait defines our service behavior independently from the service actor
-trait RootService extends HttpService with StaticResources with MemberService {
+trait RootService extends HttpService with MemberService {
 
   def showPath(req: HttpRequest) = req.method match {
     case HttpMethods.POST => LogEntry("Method = %s, Path = %s, Data = %s" format(req.method, req.uri, req.entity), Logging.InfoLevel)
@@ -31,14 +30,30 @@ trait RootService extends HttpService with StaticResources with MemberService {
   }
 
   val rootRoute =
+    get {
+      path("") {
+//        redirect("http://www.votabulary.com")
+        complete(StatusCodes.NotFound)
+      } ~
+        path("favicon.ico") {
+          complete(StatusCodes.NotFound)
+        } ~
+        path(Rest) { path =>
+          getFromResource("root/%s" format path)
+        }
+    }
+
+  /*
+  val rootRoute =
     logRequest(showPath _) {
       memberRoute ~ staticResources
     }
+  */
 }
-
+/*
 // Trait for serving static resources
 // Sends 404 for 'favicon.icon' requests and serves static resources in 'bootstrap' folder.
-trait StaticResources extends HttpService {
+trait StaticResources extends HttpService { this: DBConfig =>
 
   val staticResources =
     get {
@@ -53,3 +68,4 @@ trait StaticResources extends HttpService {
         }
     }
 }
+*/

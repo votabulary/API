@@ -21,7 +21,7 @@ trait DBConfig {
     case "vt.test" =>
       val props = new Properties()
       props.setProperty("MODE", "MySQL")
-      new Model("H2TestDB", new DAL(H2Driver), Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver", prop = props))
+      new Model("H2TestDB", new DAL(H2Driver, DBConn), Database.forURL("jdbc:h2:mem:test1", driver = "org.h2.Driver", prop = props))
     case _ =>
       val user = config.getString(s"environment.$env.db.user")
       val password = config.getString(s"environment.$env.db.password")
@@ -46,9 +46,10 @@ trait DBConfig {
       // test the data source validity
       dataSource.getConnection().close()
 
-      new Model("ClearDB", new DAL(MySQLDriver), Database.forDataSource(dataSource))
+      new Model("ClearDB", new DAL(MySQLDriver, DBConn), Database.forDataSource(dataSource))
   }
 
-  m.createDB
+//  m.createDB
+  m.purgeDB
 
 }

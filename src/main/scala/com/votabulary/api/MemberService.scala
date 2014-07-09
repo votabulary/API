@@ -1,9 +1,9 @@
 package com.votabulary.api
 
 import com.votabulary.model.DBConfig
-import com.votabulary.model.member.Member
+import com.votabulary.model.member.{MemberDAL, Member}
 import spray.json.DefaultJsonProtocol
-import spray.routing.HttpService
+
 import spray.http.StatusCodes._
 
 object MemberJSON extends DefaultJsonProtocol {
@@ -13,10 +13,11 @@ object MemberJSON extends DefaultJsonProtocol {
 /**
  * Created by jason on 6/29/14.
  */
-trait MemberService extends HttpService with DBConfig {
-  this: DBConfig =>
+trait MemberService extends BaseService {// with DBConfig {
+//  this: DBConfig =>
 
   import MemberJSON._
+
 
   val memberRoute = {
     import spray.httpx.SprayJsonSupport.sprayJsonMarshaller
@@ -25,14 +26,15 @@ trait MemberService extends HttpService with DBConfig {
     path("members") {
       get { ctx =>
         ctx.complete {
-          val result: List[Member] = m.allMembers
+          val result: Set[Member] = MemberDAL.all
           println(s"Got all member: $result")
           result
         }
       } ~
         post {
           entity(as[Member]) { member =>
-            val result = m.addMember(member)
+            // Check for existing email?
+            val result = MemberDAL.insert(member)
             println(s"Inserted member $member")
             complete(result)
           }
@@ -41,16 +43,16 @@ trait MemberService extends HttpService with DBConfig {
       path("members" / LongNumber) { id =>
         rejectEmptyResponse {
           get {
-            complete(m.getMember(id) match {
+            complete(MemberDAL.get(id) match {
               case Some(x) => x
               case _ => NotFound
             })
           } ~
             put {
               entity(as[Member]) { member =>
-                val r = m.getMember(id)
+                val r = MemberDAL.get(id)
                 r match {
-                  case Some(x) => complete(m.updateMember(member.copy(id = Some(id))))
+                  case Some(x) => complete(MemberDAL.update(member.copy(id = Some(id))))
                   case None => complete(NotFound)
                 }
               }
@@ -60,7 +62,7 @@ trait MemberService extends HttpService with DBConfig {
       path("members" / Rest) { email =>
         rejectEmptyResponse {
           get {
-            complete(m.getMember(email) match {
+            complete(MemberDAL.get(email) match {
               case Some(x) => x
               case _ => NotFound
             })
@@ -68,7 +70,7 @@ trait MemberService extends HttpService with DBConfig {
         } ~
           put {
             entity(as[Member]) { member =>
-              val r = m.getMember(email)
+              val r = MemberDAL.get(email)
               r match {
                 case Some(x) => println(s"Found member $x")
                   complete(x)

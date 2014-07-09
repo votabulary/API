@@ -1,6 +1,9 @@
 package com.votabulary.model.member
 
 import com.votabulary.model.Profile
+import com.votabulary.model.DAL
+
+import scala.slick.session.Session
 
 /**
  * Created by jason on 6/29/14.
@@ -25,6 +28,44 @@ case class Member(id: Option[Long] = None,
   require(precinct >= 101 && precinct <= 468, "Precinct is invalid. Please visit: http://www.traviscountytax.org/gis/maps/0.htm")
 
 }
+/*
+object Member {
+
+  def all = MemberDAL.all
+  def get(id: Long) = MemberDAL.get(id)
+  def get(email: String) = MemberDAL.get(email)
+  def insert(m: Member) = MemberDAL.insert(m)
+  def update(m: Member) = MemberDAL.update(m)
+
+}
+*/
+object MemberDAL {
+
+  private val dal = DAL.apply
+
+  import dal.Members
+
+  def all: Set[Member] = dal.db.withSession { implicit s: Session =>
+    Members.all
+  }
+
+  def get(id: Long) = dal.db.withSession { implicit s: Session =>
+    Members.get(id)
+  }
+
+  def get(email: String) = dal.db.withSession { implicit s: Session =>
+    Members.get(email)
+  }
+
+  def insert(member: Member) = dal.db.withSession { implicit s: Session =>
+    Members.insert(member)
+  }
+
+  def update(member: Member) = dal.db.withSession { implicit s: Session =>
+    Members.update(member)
+  }
+
+}
 
 trait MemberComponent { this: Profile =>
   import profile.simple._
@@ -44,8 +85,8 @@ trait MemberComponent { this: Profile =>
     def proj = id.? ~ first ~ last ~ email ~ state ~ county ~ precinct ~ emailReminder ~ smsReminder ~ smsNumber
     def * = proj <> (Member, Member.unapply _)
 
-    def all(implicit session: Session): List[Member] =
-      (for (m <- Members) yield m).list
+    def all(implicit session: Session): Set[Member] =
+      (for (m <- Members) yield m).list.toSet
 
     def get(id: Long)(implicit session: Session): Option[Member] =
       (for (m <- Members if m.id === id) yield m).firstOption

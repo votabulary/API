@@ -1,58 +1,43 @@
 package com.votabulary.model
 
+import com.typesafe.config.{Config, ConfigFactory}
+import org.slf4j.{Logger, LoggerFactory}
 import scala.slick.session.Database
 import com.mchange.v2.c3p0.ComboPooledDataSource
-import org.slf4j.LoggerFactory
-import util.Properties
-import java.net.URI
+import scala.util.Properties
 
 trait DBConn {
-  
   val database: Database
+}
 
+object DBConn extends DBConn {
+  lazy val database: Database = DatabaseConnection.database
 }
 
 object DatabaseConnection {
 
-  val log = LoggerFactory.getLogger("DatabaseConnection")
+  val log: Logger = LoggerFactory.getLogger("DatabaseConnection")
 
   def database: Database = {
-    import com.typesafe.config._
 
     try {
       val pool = new ComboPooledDataSource
       //load the URL/Driver/User/PW from config
-      val config = ConfigFactory.load()
+      val config: Config = ConfigFactory.load()
       config.checkValid(ConfigFactory.defaultReference())
 
       val env = config.getString("build.env")
-      val url = config.getString("environment." + env + ".db.url")
-      val user = config.getString("environment." + env + ".db.user")
-      val password = config.getString("environment." + env + ".db.password")
-      val fullURL = new URI(Properties.envOrElse("CLEARDB_DATABASE_URL", s"$user:$password@$url"))
-      val dbUrl = s"jdbc:mysql://${fullURL.getHost()}${fullURL.getPath()}"
-      val driver = config.getString("environment." + env + ".db.driver")
-      log.debug("env: " + env)
-      log.debug("URL: " + dbUrl)
-      log.debug("Driver: " + driver)
-      log.debug("User: " + user)
-      log.debug("Password: " + password)
-      pool.setDriverClass(driver)
-      pool.setJdbcUrl(dbUrl)
-      pool.setUser(user)
-      pool.setPassword(password)
-      val minSize = config.getInt("environment." + env + ".cp.minPoolSize")
-      val maxSize = config.getInt("environment." + env + ".cp.maxPoolSize")
-      val acquireIncrement = config.getInt("environment." + env + ".cp.acquireIncrement")
-      val maxIdleTime = config.getInt("environment." + env + ".cp.maxIdleTime")
-      val testConnectionOnCheckout = config.getBoolean("environment." + env + ".cp.testConnectionOnCheckout")
-      val preferredTestQuery = config.getString("environment." + env + ".cp.preferredTestQuery")
-      pool.setMinPoolSize(minSize)
-      pool.setAcquireIncrement(acquireIncrement)
-      pool.setMaxPoolSize(maxSize)
-      pool.setMaxIdleTime(maxIdleTime)
-      pool.setTestConnectionOnCheckout(testConnectionOnCheckout)
-      pool.setPreferredTestQuery(preferredTestQuery)
+      val jdbc = JDBCURL(config)
+      pool.setJdbcUrl(jdbc.url)
+      pool.setUser(jdbc.user)
+      pool.setPassword(jdbc.password)
+      pool.setDriverClass(config.getString("environment." + env + ".db.driver"))
+      pool.setMinPoolSize(config.getInt("environment." + env + ".cp.minPoolSize"))
+      pool.setAcquireIncrement(config.getInt("environment." + env + ".cp.acquireIncrement"))
+      pool.setMaxPoolSize(config.getInt("environment." + env + ".cp.maxPoolSize"))
+      pool.setMaxIdleTime(config.getInt("environment." + env + ".cp.maxIdleTime"))
+      pool.setTestConnectionOnCheckout(config.getBoolean("environment." + env + ".cp.testConnectionOnCheckout"))
+      pool.setPreferredTestQuery(config.getString("environment." + env + ".cp.preferredTestQuery"))
       pool.getProperties.put("utf8", "true")
 
       Database forDataSource pool
@@ -70,6 +55,26 @@ object DatabaseConnection {
   }
 }
 
-object DBConn extends DBConn {
-  lazy val database: Database = DatabaseConnection.database
+case class JDBCURL(url: String, user: String, password: String) {}
+
+object JDBCURL {
+
+  val ENV_VAR: String = "CLEARDB_DATABASE_URL"
+
+  def apply(config: Config): JDBCURL = {
+    Properties.envOrNone(ENV_VAR) match {
+      case Some(value) => // Assume: jdbc:mysql://user:password@url
+        val credsUrl = value.split("//")(1).split("@")
+        val creds = credsUrl(0).split(":")
+        val url = credsUrl(1)
+        new JDBCURL(url, creds(0), creds(1))
+      case None =>
+        val env = config.getString("build.env")
+        val url = config.getString("environment." + env + ".db.url")
+        val user = config.getString("environment." + env + ".db.user")
+        val password = config.getString("environment." + env + ".db.password")
+        new JDBCURL(url, user, password)
+    }
+  }
+
 }

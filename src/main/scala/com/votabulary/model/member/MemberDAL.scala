@@ -7,7 +7,7 @@ import scala.slick.session.{Session, Database}
 /**
  * Created by jason on 6/29/14.
  */
-trait MemberDAL {
+trait MemberDAL_OLD {
 
   val dal: DAL
   val db: Database
