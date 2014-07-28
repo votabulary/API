@@ -1,10 +1,8 @@
 package com.votabulary.api
 
-import com.votabulary.model.DBConfig
-import com.votabulary.model.member.{MemberDAL, Member}
-import spray.json.DefaultJsonProtocol
-
+import com.votabulary.model.member.{Member, MemberDAL}
 import spray.http.StatusCodes._
+import spray.json.DefaultJsonProtocol
 
 object MemberJSON extends DefaultJsonProtocol {
   implicit val memberFormat = jsonFormat10(Member)
@@ -13,15 +11,13 @@ object MemberJSON extends DefaultJsonProtocol {
 /**
  * Created by jason on 6/29/14.
  */
-trait MemberService extends BaseService {// with DBConfig {
-//  this: DBConfig =>
+trait MemberService extends BaseService {
 
-  import MemberJSON._
+  import com.votabulary.api.MemberJSON._
 
 
   val memberRoute = {
-    import spray.httpx.SprayJsonSupport.sprayJsonMarshaller
-    import spray.httpx.SprayJsonSupport.sprayJsonUnmarshaller
+    import spray.httpx.SprayJsonSupport._
 
     path("members") {
       get { ctx =>

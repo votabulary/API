@@ -1,11 +1,10 @@
 package com.votabulary.api
 
 import akka.actor.Actor
-import com.votabulary.model.{DAL, DBConfig}
-import spray.routing._
-import directives.LogEntry
-import spray.http._
 import akka.event.Logging
+import spray.http._
+import spray.routing._
+import spray.routing.directives.LogEntry
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -32,40 +31,14 @@ trait RootService extends HttpService with MemberService {
   val rootRoute =
     get {
       path("") {
-//        redirect("http://www.votabulary.com")
-        complete(StatusCodes.NotFound)
+        getFromResource("root/index.html")
       } ~
         path("favicon.ico") {
           complete(StatusCodes.NotFound)
         } ~
         path(Rest) { path =>
-          getFromResource("root/%s" format path)
+          getFromResource(s"root/$path")
         }
     }
 
-  /*
-  val rootRoute =
-    logRequest(showPath _) {
-      memberRoute ~ staticResources
-    }
-  */
 }
-/*
-// Trait for serving static resources
-// Sends 404 for 'favicon.icon' requests and serves static resources in 'bootstrap' folder.
-trait StaticResources extends HttpService { this: DBConfig =>
-
-  val staticResources =
-    get {
-      path("") {
-        redirect("http://www.votabulary.com")
-      } ~
-        path("favicon.ico") {
-          complete(StatusCodes.NotFound)
-        } ~
-        path(Rest) { path =>
-          getFromResource("root/%s" format path)
-        }
-    }
-}
-*/

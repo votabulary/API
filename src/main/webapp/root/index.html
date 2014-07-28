@@ -1,77 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="shortcut icon" href="imgs/favicon.ico">
+    <link href="http://fonts.googleapis.com/css?family=Dosis:400,500,700" rel="stylesheet" type="text/css">
 
-    <title>Votabulary</title>
+    <title>votabulary</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="css/navbar-static-top.css" rel="stylesheet">
 
-    <!-- Angular JS -->
-    <script src="http://code.angularjs.org/1.0.6/angular.min.js"></script>
-  </head>
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
 
   <body>
 
-    <div class="container-narrow">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">Votabulary</h3>
-      </div>
-
-      <div class="jumbotron">
-          <h1>Lorem ipsum</h1>
-          <p class="lead">dolor sit amet, consectetur adipiscing elit. Mauris accumsan ullamcorper ligula et vulputate. Integer tristique vestibulum ipsum, vitae fermentum sem dapibus porta. Mauris bibendum congue odio, ac vestibulum quam semper sit amet. Integer ultrices ante a nunc condimentum laoreet at eget nisl. Donec et placerat mi, non ultricies eros. Praesent tempor ultricies odio, sit amet commodo metus egestas quis. In vitae dignissim arcu. Donec ac velit elit. Morbi eget fermentum lorem. Cras non lacus sit amet urna semper bibendum at et massa. Fusce et tellus eget lacus gravida sodales. Duis ac scelerisque magna, in consectetur urna. Cras placerat neque lorem, vitae convallis quam vulputate et. Pellentesque eu ipsum condimentum, tristique mi at, blandit sem.</p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    <!-- Static navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html"><span data-icon="a" class="icon"></span><img src="imgs/text-white.svg"></a>
         </div>
-
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+	        <li class="active"><a href="index.html">Home</a></li>
+            <li id="upcomingnav"><a href="upcoming.html">Upcoming elections</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="faq.html">Voting FAQ</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="login.html">Log in</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
+    </div>
 
-      <div class="footer">
-        <p>&copy; Votabulary 2014   </p>
+
+    <div class="jumbotron">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="container">
+		<div class="jumbotron jumbotron-inner">
+	        <h1 class="hidden-xs"><span data-icon="a" class="icon"></span><img src="imgs/text.svg"></h1>
+	        <h2>Be a better voter</h2>
+	        <p>Voting is one of the most important things we can do as citizens, but it can get lost in the shuffle of our busy lives. Tell us where you live and vote. We’ll become your personal trainer for civic engagement!</p>
+	        <p>
+	          <a class="btn btn-lg btn-primary" href="signup.html" role="button">Sign up »</a>
+	        </p>
+		</div>
       </div>
+	</div>
+
+	    <div class="container">
+	      <!-- Example row of columns -->
+	      <div class="row">
+	        <div class="col-md-4">
+	          <h2><span class="glyphicon glyphicon-user"></span> Register With Us</h2>
+	          <p>Tell us where you live and vote. We’ll become your personal trainer for civic engagement!
+			</p>
+	          <p><a class="btn btn-primary" href="signup.html" role="button">Sign up »</a></p>
+	        </div>
+	        <div class="col-md-4">
+	          <h2><span class="glyphicon glyphicon-exclamation-sign"></span> Get Reminders</h2>
+	          <p>Get reminded when and where to vote before and during voting periods. We’re persistent.
+			</p>
+	       </div>
+	        <div class="col-md-4">
+	          <h2><span class="glyphicon glyphicon-check"></span> Tell Us You Voted</h2>
+	          <p>We stop bothering you when you vote, and we’ll keep score for you and keep you involved.
+			</p>
+	        </div>
+	      </div>
+	      		<p>votabulary is currently available in Travis County (Austin, Texas). <a href="mailto:%20bugus@votabulary.com">Bug us</a> to tell us you want it where you live.<p>
 
     </div> <!-- /container -->
 
-    <style type="text/css">
-        .css-form input.ng-invalid.ng-dirty {
-            background-color: #FA787E;
-        }
 
-        .css-form input.ng-valid.ng-dirty {
-            background-color: #78FA89;
-        }
-    </style>
-  </body>
-</html>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/transition.js"></script>
+  
+
+</body></html>

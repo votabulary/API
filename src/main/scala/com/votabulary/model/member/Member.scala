@@ -16,7 +16,6 @@ case class Member(id: Option[Long] = None,
                   county: String = "Travis",
                   precinct: Int,  // Change to String?
                   emailReminder: Boolean,
-//                  emailRemindEmail: String,
                   smsReminder: Boolean,
                   smsNumber: String) {
 
@@ -28,17 +27,7 @@ case class Member(id: Option[Long] = None,
   require(precinct >= 101 && precinct <= 468, "Precinct is invalid. Please visit: http://www.traviscountytax.org/gis/maps/0.htm")
 
 }
-/*
-object Member {
 
-  def all = MemberDAL.all
-  def get(id: Long) = MemberDAL.get(id)
-  def get(email: String) = MemberDAL.get(email)
-  def insert(m: Member) = MemberDAL.insert(m)
-  def update(m: Member) = MemberDAL.update(m)
-
-}
-*/
 object MemberDAL {
 
   private val dal = DAL.apply

@@ -1,10 +1,8 @@
 package com.votabulary.model
 
-import com.votabulary.model.member.MemberDAL_OLD
-
 import scala.slick.session.Database
 
-class Model(name: String, val dal: DAL, val db: Database) extends MemberDAL_OLD {
+class Model(name: String, val dal: DAL, val db: Database) {
   // We only need the DB/session imports outside the DAL
 
   // Put an implicitSession in scope for database actions
