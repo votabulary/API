@@ -61,7 +61,7 @@
 	        <h1>Sign up</h1>
             <!-- <p class="help-block">Already have an account? <a href="login.html">Login here</a></p> -->
 	    </div>
-	    <form action="send_form_email.php" method="post" name="contactform">
+	    <form action="send_form_email.php" method="post" name="contactform" id="contactform">
 	        <fieldset class="form-group">
 	            <label class="control-label">First Name <span class="glyphicon glyphicon-asterisk"></span></label> 
 	            <div class="controls">
@@ -136,7 +136,7 @@
 	            </div>
 	        </fieldset>
 			<div class="form-group">
-		         <input type="submit" value="Submit" class="btn btn-primary btn-lg btn-block">
+		         <input type="button" value="Submit" id="btnSubmit" class="btn btn-primary btn-lg btn-block">
 			</div>
 	    </form>
 		</div>
@@ -150,6 +150,7 @@
 	<script src="https://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/transition.js"></script>
-  
+    <script src="js/signup.js"></script>
+
 
 </body></html>
