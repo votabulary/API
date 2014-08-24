@@ -10,7 +10,7 @@ To test sending some JSON to your Rest API use:
     'curl -d '<some json>' -H "Content-Type: application/json" http://localhost:9000/<api-url>'
 
 # Run
-Use 'sbt run' to run the server locally. 
+Use 'sbt run' to run the server locally. SBT 0.12.3 max supported version on Heroku.
 
 # Run on Heroku
 Use sbt-start-script plugin to create a 'start' script in the target folder.
